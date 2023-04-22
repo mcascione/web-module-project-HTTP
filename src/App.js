@@ -4,13 +4,13 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import MovieList from './components/MovieList';
 import Movie from './components/Movie';
 import EditMovieForm from "./components/EditMovieForm";
-
+import AddMovieForm from "./components/AddMovieForm";
 import MovieHeader from './components/MovieHeader';
 import FavoriteMovieList from './components/FavoriteMovieList';
 
 import axios from 'axios';
 
-const App = (props) => {
+const App = () => {
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
@@ -29,7 +29,7 @@ const App = (props) => {
   }
 
   const addToFavorites = (movie) => {
-
+    setFavoriteMovies(movie);
   }
 
   return (
@@ -42,15 +42,14 @@ const App = (props) => {
         <MovieHeader />
         <div className="row ">
           <FavoriteMovieList favoriteMovies={favoriteMovies} />
-     
+
 
           <Routes>
             <Route path="movies/edit/:id" element={<EditMovieForm setMovies={setMovies}/>}/>
-
             <Route path="movies/:id" element={<Movie deleteMovie={deleteMovie}/>}/>
-
+            <Route path="movies/add" element={<AddMovieForm setMovies={setMovies}/>} />
             <Route path="movies" element={<MovieList movies={movies} />} />
-
+            
             <Route path="/" element={<Navigate to="/movies" />} />
           </Routes>
         </div>
