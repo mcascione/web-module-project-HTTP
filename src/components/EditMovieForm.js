@@ -7,7 +7,7 @@ import axios from "axios";
 const EditMovieForm = (props) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { setMovies } = props;
+  const { setMovies, setFavoriteMovies, favoriteMovies } = props;
   const [movie, setMovie] = useState({
     title: "",
     director: "",
@@ -40,6 +40,12 @@ const EditMovieForm = (props) => {
       .put(`http://localhost:9000/api/movies/${id}`, movie)
       .then((res) => {
         setMovies(res.data);
+        const index = favoriteMovies.findIndex(m => m.id === id);
+        favoriteMovies.splice(index, 1);
+        const updatedFavoriteMovies = res.data.filter((m) => 
+          favoriteMovies.some((fm) => fm.id === m.id)
+        );
+        setFavoriteMovies([...updatedFavoriteMovies, res.data.find(m => m.id === id)]);
         navigate(`/movies/${movie.id}`);
       })
       .catch((err) => {

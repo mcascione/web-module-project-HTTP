@@ -5,6 +5,13 @@ import axios from "axios";
 const Movie = (props) => {
   const { addToFavorites } = props;
   const [movie, setMovie] = useState("");
+  const [favoriteMovie, setFavoriteMovie] = useState({
+    title: "",
+    director: "",
+    genre: "",
+    metascore: 0,
+    description: "",
+  });
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -29,6 +36,12 @@ const Movie = (props) => {
       .catch((err) => {
         console.log(err.response);
       });
+  };
+
+  const handleAddFavorite = () => {
+    setFavoriteMovie(movie);
+    addToFavorites(movie);
+    navigate("/movies");
   };
 
   return (
@@ -70,7 +83,7 @@ const Movie = (props) => {
               </section>
 
               <section>
-                <span className="m-2 btn btn-dark">Favorite</span>
+                <span type="button" onClick={handleAddFavorite} className="m-2 btn btn-dark">Favorite</span>
                 <Link
                   to={`/movies/edit/${movie.id}`}
                   className="m-2 btn btn-success"

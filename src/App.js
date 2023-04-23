@@ -26,10 +26,11 @@ const App = () => {
 
   const deleteMovie = (id) => {
     setMovies(movies.filter(item => (item.id !== (id))));
+    setFavoriteMovies(favoriteMovies.filter(movie => movie.id !== id));
   }
 
   const addToFavorites = (movie) => {
-    setFavoriteMovies(movie);
+    setFavoriteMovies([...favoriteMovies, movie]);
   }
 
   return (
@@ -41,15 +42,15 @@ const App = () => {
       <div className="container">
         <MovieHeader />
         <div className="row ">
-          <FavoriteMovieList favoriteMovies={favoriteMovies} />
+          <FavoriteMovieList favoriteMovies={favoriteMovies}/>
 
 
           <Routes>
-            <Route path="movies/edit/:id" element={<EditMovieForm setMovies={setMovies}/>}/>
-            <Route path="movies/:id" element={<Movie deleteMovie={deleteMovie}/>}/>
+            <Route path="movies/edit/:id" element={<EditMovieForm setMovies={setMovies} setFavoriteMovies={setFavoriteMovies} favoriteMovies={favoriteMovies} />}/>
+            <Route path="movies/:id" element={<Movie deleteMovie={deleteMovie} addToFavorites={addToFavorites} favoriteMovies={favoriteMovies} setFavoriteMovies={setFavoriteMovies}/>  }/>
             <Route path="movies/add" element={<AddMovieForm setMovies={setMovies}/>} />
             <Route path="movies" element={<MovieList movies={movies} />} />
-            
+
             <Route path="/" element={<Navigate to="/movies" />} />
           </Routes>
         </div>
